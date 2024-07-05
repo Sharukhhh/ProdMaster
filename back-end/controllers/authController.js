@@ -65,7 +65,7 @@ export const login = async (req, res) => {
 
                 const userData = {
                     name: user?.name , 
-                    userId: user?.email
+                    userId: user?._id
                 }
 
                 res.setHeader('Authorization', `Bearer ${token}`);
