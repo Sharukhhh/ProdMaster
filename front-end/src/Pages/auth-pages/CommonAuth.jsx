@@ -3,19 +3,41 @@ import AuthTexts from '../../components/auth-page-components/AuthTexts'
 import InputField from '../../components/auth-page-components/InputField'
 import { useAuthFormHook } from '../../custom hooks/authForm'
 import { useNavigate } from 'react-router-dom'
+import { useSignUpUserMutation } from '../../Redux/services/apiSlice'
+import { validateAuthFormData } from '../../utils/verifyCred'
+import { errorAlert, successAlert } from '../../utils/alerts'
+import ProgressLoader from '../../components/loaders/ProgressLoader'
 
 const CommonAuth = ({isLogin}) => {
     const {authFormData , handleDataChange} = useAuthFormHook();
+    const [signUpUser , {isLoading }] = useSignUpUserMutation()
     const navigate = useNavigate();
+
 
     const handleSubmit = async(e) => {
         e.preventDefault();
 
-        // try {
-            
-        // } catch (error) {
-            
-        // }
+        try {
+            const result = validateAuthFormData(authFormData);
+            if(!result) {
+                errorAlert('Invalid Entry');
+                return;
+            }
+            if(!isLogin) {
+                const response = await signUpUser(authFormData).unwrap();
+                successAlert(response.message);
+                setTimeout(() => {
+                    navigate('/login');
+                }, 3000);
+            }
+
+        } catch (error) {
+            if(error.data.error) {
+                errorAlert(error.data.error)
+            } else {
+                errorAlert(error?.statusText || error?.error);
+            }
+        }
     }
     return (
         <>
@@ -70,10 +92,14 @@ const CommonAuth = ({isLogin}) => {
                                 </>
                             )}
                             <div className='flex justify-center'>
-                                <button type='submit' className='bg-indigo-900 mt-3 rounded-full items-center text-white px-10 py-4 
-                                text-lg font-bold hover:bg-amber-600'>
-                                    {isLogin ? 'LOGIN' : 'CREATE ACCOUNT'}
-                                </button>
+                                {isLoading ? (
+                                    <ProgressLoader/>
+                                ) : (
+                                    <button type='submit' className='bg-indigo-900 mt-3 rounded-full items-center text-white px-10 py-4 
+                                    text-lg font-bold hover:bg-amber-600'>
+                                        {isLogin ? 'LOGIN' : 'CREATE ACCOUNT'}
+                                    </button>
+                                )}
                             </div>
                         </form>
                     </div>
