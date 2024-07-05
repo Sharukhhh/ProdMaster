@@ -1,5 +1,5 @@
 import express from 'express'
-import { createMainCategory, createSubCategory, fetchMainCategories, fetchSubCategories } from '../controllers/categoryController';
+import { createMainCategory, createSubCategory, fetchMainCategories, fetchSubCategories } from '../controllers/categoryController.js';
 const router = express.Router();
 
 router.post('/add_category' , createMainCategory);
