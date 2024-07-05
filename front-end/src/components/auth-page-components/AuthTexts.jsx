@@ -1,10 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import img1 from '../../../public/authImg.png';
 
 const AuthTexts = ({isLogin}) => {
     return (
-        <div className='md:w-1/2 md:p-6 text-white flex flex-col items-center justify-center bg-cover bg-center bg-[url("../../../public/authImg.png")]'>
+        <div className='md:w-1/2 md:p-6 text-white flex flex-col items-center justify-center bg-cover bg-center bg-[url("../../../../authImg.png")]'>
             <div className='text-center p-3  w-full'>
                 <h1 className="text-4xl font-bold">
                     {isLogin ? 'Welcome Back!' : 'Hello Friend!'}
