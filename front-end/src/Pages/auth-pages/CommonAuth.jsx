@@ -1,41 +1,64 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import AuthTexts from '../../components/auth-page-components/AuthTexts'
 import InputField from '../../components/auth-page-components/InputField'
 import { useAuthFormHook } from '../../custom hooks/authForm'
 import { useNavigate } from 'react-router-dom'
-import { useSignUpUserMutation } from '../../Redux/services/apiSlice'
+import { useLoginUserMutation, useSignUpUserMutation } from '../../Redux/services/apiSlice'
 import { validateAuthFormData } from '../../utils/verifyCred'
 import { errorAlert, successAlert } from '../../utils/alerts'
 import ProgressLoader from '../../components/loaders/ProgressLoader'
+import { useDispatch, useSelector } from 'react-redux'
+import { setUserDetailsToStore } from '../../Redux/slices/authSlice'
 
 const CommonAuth = ({isLogin}) => {
     const {authFormData , handleDataChange} = useAuthFormHook();
     const [signUpUser , {isLoading }] = useSignUpUserMutation()
+    const [loginUser , {isLoading: isLoginLoading}] = useLoginUserMutation()
+    const storedUserInfo = useSelector((state) => state.prodMaster_auth.endUserInfo);
     const navigate = useNavigate();
+    const dispatch = useDispatch();
 
+    useEffect(() => {
+        if(isLogin) {
+            if(storedUserInfo) {
+                navigate('/home');
+            }
+        }
+    },[]);
 
     const handleSubmit = async(e) => {
         e.preventDefault();
 
         try {
-            const result = validateAuthFormData(authFormData);
-            if(!result) {
-                errorAlert('Invalid Entry');
-                return;
-            }
+
             if(!isLogin) {
+
+                const result = validateAuthFormData(authFormData);
+                if(!result) {
+                    errorAlert('Invalid Entry');
+                    return;
+                }
                 const response = await signUpUser(authFormData).unwrap();
                 successAlert(response.message);
                 setTimeout(() => {
                     navigate('/login');
                 }, 3000);
+
+            } else {
+                const response = await loginUser(authFormData).unwrap();
+                dispatch(setUserDetailsToStore(response?.userData));
+                localStorage.setItem('ProdUsertoken' , response?.token);
+                successAlert(response?.message);
+                setTimeout(() => {
+                    navigate('/home');
+                }, 3000)
             }
 
         } catch (error) {
-            if(error.data.error) {
-                errorAlert(error.data.error)
+            if(error?.data?.error) {
+                errorAlert(error?.data?.error)
             } else {
-                errorAlert(error?.statusText || error?.error);
+                errorAlert(error?.statusText || error?.error || error);
             }
         }
     }
@@ -92,7 +115,7 @@ const CommonAuth = ({isLogin}) => {
                                 </>
                             )}
                             <div className='flex justify-center'>
-                                {isLoading ? (
+                                {isLoading || isLoginLoading ? (
                                     <ProgressLoader/>
                                 ) : (
                                     <button type='submit' className='bg-indigo-900 mt-3 rounded-full items-center text-white px-10 py-4 

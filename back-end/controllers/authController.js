@@ -54,7 +54,7 @@ export const login = async (req, res) => {
             const user = await User.findOne({email});
 
             if(!user){
-                return res.status(404).json({error : 'User not found'});
+                return res.status(404).json({error : 'User not found, Kindly Create your account'});
             }
 
             const isCorrectPassword = await bcrypt.compare(password , user.password);
@@ -68,8 +68,7 @@ export const login = async (req, res) => {
                     userId: user?._id
                 }
 
-                res.setHeader('Authorization', `Bearer ${token}`);
-                return res.json({message : 'Logged In Successfully', userData });
+                return res.json({message : 'Logged In Successfully', userData, token });
 
             } else {
                 return res.status(401).json({error : 'Password Does not match!'});

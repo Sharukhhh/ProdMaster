@@ -5,7 +5,7 @@ const baseQuery = fetchBaseQuery({
     baseUrl: 'https://prodmaster-backend.onrender.com/api/',
 
     prepareHeaders: (headers) => {
-        const token = localStorage.getItem('token');
+        const token = localStorage.getItem('ProdUsertoken');
 
         if(token) {
             headers.set('authorization' , `Bearer ${token}`);

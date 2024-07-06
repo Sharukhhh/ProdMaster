@@ -3,15 +3,19 @@ import { FaRegHeart } from "react-icons/fa";
 import Sidebar from '../sidebar/Sidebar';
 import { IoMdLogOut } from "react-icons/io";
 import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { removeUserDetailsFromStore } from '../../Redux/slices/authSlice';
 
 const Navbar = () => {
     const [sideBarOpen , setSideBarOpen] = useState(false);
     const navigate = useNavigate();
+    const dispatch = useDispatch();
     const toggleSidebar = () => {
         setSideBarOpen(!sideBarOpen);
     }
 
     const handleLogout = () => {
+        dispatch(removeUserDetailsFromStore());
         navigate('/login');
     }
 
