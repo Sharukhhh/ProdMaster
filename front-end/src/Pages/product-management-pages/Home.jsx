@@ -1,16 +1,33 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Navbar from '../../components/navbar/Navbar'
 import Button from '../../components/buttons/Button'
 import {Link} from 'react-router-dom'
+import { useGetCategoriesQuery } from '../../Redux/services/apiSlice'
+import CategoryModal from '../../components/modals/CategoryModal'
 
 const Home = () => {
+    
+    const [openMainCategoryModal , setOpenMainCategoryModal] = useState(false);
+    const [openSubCategoryModal , setOpenSubCategoryModal] = useState(false);
+    const {data} = useGetCategoriesQuery();
+
+    // Main Category modal display handler
+    const handleMainCategoryModalDisplay = () => {
+        setOpenMainCategoryModal(!openMainCategoryModal);
+    }
+
+    // Sub category modal display handler
+    const handleSubCategoryModalDisplay = () => {
+        setOpenSubCategoryModal(!openSubCategoryModal);
+    }
+
     return (
         <>
             <Navbar/>
             <div className='flex justify-center sm:justify-end p-4 my-4'>
                 <div className='space-x-3 space-y-3'>
-                    <Button buttonText={'Add Category'}/>
-                    <Button buttonText={'Add Sub category'}/>
+                    <Button onClickHandle={handleMainCategoryModalDisplay} buttonText={'Add Category'}/>
+                    <Button onClickHandle={handleSubCategoryModalDisplay} buttonText={'Add Sub category'}/>
                     <Button buttonText={'Add Product'}/>
                 </div>
             </div>
@@ -42,6 +59,23 @@ const Home = () => {
                     </div>
                 </div>
             </div>
+
+            {openMainCategoryModal && (
+                <CategoryModal
+                isSubCategory={false}
+                title={'Add Main Category'}
+                onClose={handleMainCategoryModalDisplay}
+                />
+            )}
+
+            {openSubCategoryModal && (
+                <CategoryModal
+                isSubCategory={true}
+                title={'Add Sub category'}
+                categories={data?.categories}
+                onClose={handleSubCategoryModalDisplay}
+                />
+            )}
         </>
     )
 }

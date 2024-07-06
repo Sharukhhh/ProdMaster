@@ -32,7 +32,6 @@ const CommonAuth = ({isLogin}) => {
         try {
 
             if(!isLogin) {
-
                 const result = validateAuthFormData(authFormData);
                 if(!result) {
                     errorAlert('Invalid Entry');
@@ -40,18 +39,14 @@ const CommonAuth = ({isLogin}) => {
                 }
                 const response = await signUpUser(authFormData).unwrap();
                 successAlert(response.message);
-                setTimeout(() => {
-                    navigate('/login');
-                }, 3000);
+                navigate('/login');
 
             } else {
                 const response = await loginUser(authFormData).unwrap();
                 dispatch(setUserDetailsToStore(response?.userData));
                 localStorage.setItem('ProdUsertoken' , response?.token);
                 successAlert(response?.message);
-                setTimeout(() => {
-                    navigate('/home');
-                }, 3000)
+                navigate('/home');
             }
 
         } catch (error) {

@@ -8,21 +8,22 @@ import SubCategory from '../models/subCategorySchema.js'
 export const createMainCategory = async (req, res) => {
     try {
         
-        const { category } = req.body;
+        console.log(req.body)
+        const { mainCategory} = req.body;
 
-        if(category){
+        if(mainCategory){
 
-            let isCategoryExists = await Category.findOne({mainCategory : category});
+            let isCategoryExists = await Category.findOne({mainCategory});
 
             if(isCategoryExists){
                 return res.status(409).json({error : 'Category Already Exists'});
             }
 
             await Category.create({
-                mainCategory : category
+                mainCategory 
             });
 
-            return res.status(201).json({message : 'Category Added'});
+            return res.status(201).json({message : `${mainCategory} - Category Added`});
         }
     } catch (error) {
         console.log(error);
@@ -58,10 +59,8 @@ export const fetchMainCategories = async (req, res) => {
     path : /api/category/add_subcategory
 */
 export const createSubCategory = async (req, res) => {
-    try {
-        const { subCategoryData } = req.body;
-        
-        const { subCategory,  selectedMainCategory } = subCategoryData;
+    try {        
+        const { subCategory,  selectedMainCategory } = req.body;
 
         if(subCategory && selectedMainCategory){
 
@@ -73,7 +72,6 @@ export const createSubCategory = async (req, res) => {
 
             const mainCategoryExists = await Category.findOne({_id : selectedMainCategory});
 
-
             if(!mainCategoryExists){
                 return res.status(404).json({error : 'Main Category Not found'});
             }
@@ -83,7 +81,7 @@ export const createSubCategory = async (req, res) => {
                 subcategoryName : subCategory
             })
 
-            return res.status(201).json({message : 'Sub Category Added'});
+            return res.status(201).json({message : ` ${subCategory} - Sub Category Added`});
         }
 
     } catch (error) {

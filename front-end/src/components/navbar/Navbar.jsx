@@ -5,6 +5,7 @@ import { IoMdLogOut } from "react-icons/io";
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { removeUserDetailsFromStore } from '../../Redux/slices/authSlice';
+import { successAlert } from '../../utils/alerts';
 
 const Navbar = () => {
     const [sideBarOpen , setSideBarOpen] = useState(false);
@@ -16,12 +17,13 @@ const Navbar = () => {
 
     const handleLogout = () => {
         dispatch(removeUserDetailsFromStore());
+        successAlert('Logged out successfully');
         navigate('/login');
     }
 
     return (
         <>
-            <nav className='bg-gray-800 p-6 flex items-center justify-between'>
+            <nav className='bg-[#001f3f] p-6 flex items-center justify-between'>
                 <div className='flex items-center w-full md:w-auto'>
                     <input type="search" 
                     placeholder='Search anything.......'
