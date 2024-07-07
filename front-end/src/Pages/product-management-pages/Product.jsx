@@ -8,6 +8,7 @@ import { errorAlert, infoAlert } from '../../utils/alerts'
 import ProductModal from '../../components/modals/ProductModal'
 import { IoIosHeartEmpty, IoMdHeart} from "react-icons/io";
 import toast from 'react-hot-toast'
+import {Link} from 'react-router-dom'
 
 const Product = () => {
     const {id} = useParams();
@@ -55,6 +56,11 @@ const Product = () => {
     return (
         <>
             <Navbar/>
+            <div className='w-full p-4 mt-4 flex justify-start bg-slate-50'>
+                <Link to="/home" className="text-blue-500 hover:text-blue-700 transition-colors duration-300 text-lg md:text-xl">
+                    Return Home
+                </Link>
+            </div>
             <div className='p-6 flex flex-col items-center justify-center my-6'>
                 {isLoading || isFetching ? (
                     <>

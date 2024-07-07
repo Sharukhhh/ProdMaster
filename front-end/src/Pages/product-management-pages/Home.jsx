@@ -80,10 +80,14 @@ const Home = () => {
                 </div>
                 <div className='w-full md:w-2/3'>
                     {isLoading || isFetching ? (
-                        <RotateLoader/>
+                        <div className='w-full md:w-1/2 lg:w-1/3 p-2'>
+                            <RotateLoader/>
+                        </div>
                     ) : isError ? ( 
                         <>
+                        <div className='w-full md:w-1/2 lg:w-1/3 p-2'>
                             <p className='text-red-500'>Error Loading Products!</p>
+                        </div>
                         </>
                     ) : (
                         <div className='flex flex-wrap'>
