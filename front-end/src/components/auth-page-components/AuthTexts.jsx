@@ -19,7 +19,7 @@ const AuthTexts = ({isLogin , isLoading , isLoginLoading}) => {
                     </p>
                 )}
             </div>
-            {!isLoading || !isLoginLoading && (
+            {isLoading === false || isLoginLoading === false && (
                 <React.Fragment>
                     {isLogin ? (
                         <Link to={'/'}>
