@@ -5,7 +5,7 @@
 
 ## Links
 
-- API Documentation: [Postman]()
+- API Documentation: [Postman](https://documenter.getpostman.com/view/26846855/2sA3e1BVxT)
 
 - Live Link: [ProdMaster](https://prod-master.vercel.app/)
 
