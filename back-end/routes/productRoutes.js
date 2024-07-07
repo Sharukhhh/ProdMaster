@@ -1,5 +1,6 @@
 import express from 'express';
 import { AddProduct, fetchProducts, getSingleProductDetails, updateProductDetails } from '../controllers/productController.js';
+// import { verifyUserAuth } from '../middlewares/authorization.js';
 const router = express.Router();
 
 router.post('/add' , AddProduct);

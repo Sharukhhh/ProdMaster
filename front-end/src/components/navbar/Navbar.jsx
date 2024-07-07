@@ -23,7 +23,7 @@ const Navbar = () => {
 
     return (
         <>
-            <nav className='bg-[#001f3f] p-6 flex items-center justify-between'>
+            <nav className='bg-[#001f3f] p-6 flex items-center justify-around'>
                 <div className='flex items-center w-full md:w-auto'>
                     <input type="search" 
                     placeholder='Search anything.......'

@@ -13,18 +13,17 @@ export const registerUser = async (req, res) => {
 
         const {name , email , password} = req.body;
 
-        console.log(req.body)
-
         if(name && email && password){
-
+            // checking if exisiting user
             const isExistingUser = await User.findOne({email});
-
             if(isExistingUser){
                 return res.status(404).json({error : 'User Already Exists'});
             }
 
+            // encrypting the password before storing to db
             const securedPassword = await hashingPassword(password);
 
+            // creating user document in db
             await User.create({
                 name,
                 email,
@@ -51,18 +50,18 @@ export const login = async (req, res) => {
 
         if(email && password){
 
+            // checking if user exists
             const user = await User.findOne({email});
-
             if(!user){
                 return res.status(404).json({error : 'User not found, Kindly Create your account'});
             }
 
+            // checking between given password encrypted password
             const isCorrectPassword = await bcrypt.compare(password , user.password);
 
             if(isCorrectPassword){
-
+                // generating jwt token for authorization 
                 const token = await createToken(user._id);
-
                 const userData = {
                     name: user?.name , 
                     userId: user?._id

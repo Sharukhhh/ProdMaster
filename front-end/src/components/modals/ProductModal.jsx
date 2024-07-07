@@ -14,7 +14,7 @@ import RotateLoader from '../loaders/RotateLoader';
 const ProductModal = ({onClose, subcategories , isEditMode , productId}) => {
     const {productData , setProductData, handleDataChange , handleFileChange , removeImage} = useProductForm();
     const [saveProduct , {isLoading}] = useSaveProductMutation()
-    const {data: editData , isLoading: isEditDataLoading} = useGetSingleProductQuery(productId);
+    const {data: editData , isLoading: isEditDataLoading} = useGetSingleProductQuery(productId , {skip: !isEditMode});
     const [editProduct , {isLoading: isUpdating}] = useEditProductMutation()
     const [isUploading, setIsUploading] = useState(false);
 
@@ -26,15 +26,13 @@ const ProductModal = ({onClose, subcategories , isEditMode , productId}) => {
                 description: editData?.product[0]?.description,
                 ram: editData?.product[0]?.ram,
                 stock: editData?.product[0]?.stock,
-                selectedSubCategory: editData?.product[0]?.subCategory?.subcategoryName
+                selectedSubCategory: editData?.product[0]?.subCategory?._id
             });
         }
     } , [editData]);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-
-        console.log(productData)
 
         const {result , message} = validateProductdata(productData);
         if(!result) {
@@ -44,6 +42,11 @@ const ProductModal = ({onClose, subcategories , isEditMode , productId}) => {
         try {
             let response;
             if(!isEditMode) {
+
+                if(productData.images.length < 3) {
+                    errorAlert('Atleast 3 images required');
+                    return;
+                }
 
                 // firebase setup for storing seelcted images to the firebase
                 setIsUploading(true);
@@ -55,7 +58,6 @@ const ProductModal = ({onClose, subcategories , isEditMode , productId}) => {
                 const imageUrls = await Promise.all(imageUploadPromises);
 
                 const updatedProductData = {...productData , images: imageUrls};
-
                 response = await saveProduct(updatedProductData).unwrap();
 
             } else {
@@ -79,7 +81,9 @@ const ProductModal = ({onClose, subcategories , isEditMode , productId}) => {
     return (
         <>
             <ModalWrapper>
-                <h2 className='text-2xl font-bold mb-6'>Add Product</h2>
+                <h2 className='text-2xl font-bold mb-6'>
+                    {isEditMode ? 'Update Product' : 'Add Product'}
+                </h2>
                 {isEditDataLoading ? (
                     <>
                         <RotateLoader/>
@@ -169,7 +173,7 @@ const ProductModal = ({onClose, subcategories , isEditMode , productId}) => {
                         </>
                         )}
                         <div className='flex justify-center'>
-                            {isLoading || isUploading ? (
+                            {isLoading || isUploading || isUpdating ? (
                                 <>
                                     <ProgressLoader/>
                                 </>
@@ -178,7 +182,7 @@ const ProductModal = ({onClose, subcategories , isEditMode , productId}) => {
                                     <button type='submit'
                                     className='inline-flex justify-center px-4 py-2 mr-3 text-sm font-medium text-white rounded-md
                                     bg-amber-500 border border-transparent rounded-mdfocus:outline-none focus:ring-2 focus:ring-offset-2'>
-                                        SAVE
+                                        {isEditMode ? 'UPDATE' : 'SAVE'}
                                     </button>
 
                                     <button type='button' onClick={onClose}

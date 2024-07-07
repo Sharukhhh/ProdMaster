@@ -8,11 +8,6 @@ export const validateProductdata = (data) => {
         message = 'Invalid Entries'
     }
 
-    if(data.images.length < 3 ) {
-        result = false;
-        message = 'Select Atleast 3 images'
-    }
-
     if(data.stock <= 0 || data.stock >= 100) {
         result = false;
         message = 'Invalid stock Entry'

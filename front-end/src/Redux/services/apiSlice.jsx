@@ -1,8 +1,8 @@
 import {fetchBaseQuery , createApi} from '@reduxjs/toolkit/query/react';
 
 const baseQuery = fetchBaseQuery({
-    baseUrl: 'http://localhost:5000/api/',
-    // baseUrl: 'https://prodmaster-backend.onrender.com/api/',
+    // baseUrl: 'http://localhost:5000/api/',
+    baseUrl: 'https://prodmaster-backend.onrender.com/api/',
 
     prepareHeaders: (headers) => {
         const token = localStorage.getItem('ProdUsertoken');
@@ -18,7 +18,7 @@ export const apiSlice = createApi({
 
     reducerPath: 'prodMaster',
     baseQuery ,
-    tagTypes: ['Category' , 'Sub Category', 'Products'],
+    tagTypes: ['Category' , 'Sub Category', 'Products' , 'list'],
 
     endpoints: (builder) => ({
         // --------------------User Auth Endpoints - START----------------------
@@ -110,13 +110,33 @@ export const apiSlice = createApi({
                 body: data
             }),
             invalidatesTags: ['Products']
-        })
+        }),
         // --------------------Product management endpoints - END--------------------
+
+
+        // --------------------Wishlist management endpoints - Start--------------------
+        toggleWishlist: builder.mutation({
+            query: (productId) => ({
+                url: `list/toggle/${productId}`,
+                method: 'PATCH',
+            }),
+            invalidatesTags: ['list']
+        }),
+
+        getWishlistItems: builder.query({
+            query: () => ({
+                url: 'list/get',
+                method: 'GET',
+            }),
+            providesTags: ['list']
+        })
+        // --------------------Wishlist management endpoints - END--------------------
     })
 });
 
 
 export const {useSignUpUserMutation , useLoginUserMutation , 
     useAddMainCategoryMutation , useGetCategoriesQuery , useAddSubCategoryMutation, useGetSubCategoriesQuery,
-    useSaveProductMutation , useGetAllProductsQuery, useGetSingleProductQuery, useEditProductMutation
+    useSaveProductMutation , useGetAllProductsQuery, useGetSingleProductQuery, useEditProductMutation,
+    useToggleWishlistMutation , useGetWishlistItemsQuery
 } = apiSlice;

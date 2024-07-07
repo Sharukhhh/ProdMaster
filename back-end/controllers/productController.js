@@ -17,12 +17,14 @@ export const AddProduct = async (req, res) => {
             return res.status(400).json({error: 'Invalid Entries'});
         }
         
+        // checking if catgeory exists
         let subCategoryExists = await SubCategory.findOne({_id : selectedSubCategory});
 
         if(!subCategoryExists){
             return res.status(404).json({error : 'No such subcategories'});
         }
 
+        // saving product
         await Product.create({
             productName,
             price,
@@ -48,23 +50,23 @@ ROUTE : /api/product/edit/:productId
 export const updateProductDetails = async (req, res) => {
     try {
 
-        console.log(req.body);
         const productId = req.params.productId;
 
         let {productName , price , ram , stock , description, selectedSubCategory } =req.body;
         stock = Number(stock);
         ram = String(ram);
 
-        if(!productName || !price || !ram || !stock || !description || !selectedSubCategory || images.length === 0) {
+        if(!productName || !price || !ram || !stock || !description || !selectedSubCategory ) {
             return res.status(400).json({error: 'Invalid Entries'});
         }
-        
+        // checking if catgeory exists
         let subCategoryExists = await SubCategory.findOne({_id : selectedSubCategory});
 
         if(!subCategoryExists){
             return res.status(404).json({error : 'No such subcategories'});
         }
 
+        // updating the product
         const existingProduct = await Product.findByIdAndUpdate(productId , {
             productName,
             price,
@@ -78,7 +80,6 @@ export const updateProductDetails = async (req, res) => {
         if(!existingProduct) {
             return res.status(404).json({error: 'No Such product '});
         }
-
         return res.status(200).json({message: `Updated ${productName} Successfully`});
 
     } catch (error) {
@@ -118,7 +119,6 @@ export const getSingleProductDetails = async (req, res) => {
         const productId = req.params.productId;
 
         if(productId){
-
             const product = await Product.findById(productId).populate('subCategory');
 
             if(!product){
@@ -126,7 +126,6 @@ export const getSingleProductDetails = async (req, res) => {
             }
 
             const productArray = [product];
-
             return res.json({message : 'success' , product : productArray});
         }
     } catch (error) {

@@ -2,20 +2,24 @@ import React, { useState } from 'react'
 import Navbar from '../../components/navbar/Navbar'
 import Button from '../../components/buttons/Button'
 import { useParams } from 'react-router-dom'
-import { useGetSingleProductQuery, useGetSubCategoriesQuery } from '../../Redux/services/apiSlice'
+import { useGetSingleProductQuery, useGetSubCategoriesQuery, useToggleWishlistMutation } from '../../Redux/services/apiSlice'
 import RotateLoader from '../../components/loaders/RotateLoader'
-import { infoAlert } from '../../utils/alerts'
+import { errorAlert, infoAlert } from '../../utils/alerts'
 import ProductModal from '../../components/modals/ProductModal'
+import { IoIosHeartEmpty, IoMdHeart} from "react-icons/io";
+import toast from 'react-hot-toast'
 
 const Product = () => {
     const {id} = useParams();
     const {data , isLoading , isFetching , isError} = useGetSingleProductQuery(id)
     const {data: subCategoriesData } = useGetSubCategoriesQuery()
+    const [toggleWishlist ] = useToggleWishlistMutation()
     const [editModalOpen , setEditModalOpen] = useState(false);
     const [quantity , setQuantity] = useState(1);
+    const [wishListIconState , setWishListIconstate] = useState(false);
 
     const handleIncrement = (stock) => {
-        if(quantity > parseInt(stock)) {
+        if(quantity >= parseInt(stock)) {
             infoAlert('Out Of stock!');
             return;
         }
@@ -30,6 +34,22 @@ const Product = () => {
 
     const toggleEditModal = () => {
         setEditModalOpen(!editModalOpen);
+    }
+
+    const handleWishlistItems = async (productId) => {
+        try {
+            const response = await toggleWishlist(productId).unwrap();
+            console.log(response)
+            toast.success(response?.message);
+            setWishListIconstate(prev => !prev);
+        } catch (error) {
+            console.log(error)
+            if(error?.data?.error) {
+                errorAlert(error?.data?.error)
+            } else {
+                errorAlert(error?.statusText || error?.error || error);
+            }
+        }
     }
 
     return (
@@ -76,9 +96,14 @@ const Product = () => {
                                         +
                                     </button>
                                 </div>
-                                <div className='flex space-x-2'>
+                                <div className='flex space-x-7'>
                                     <Button onClickHandle={toggleEditModal} buttonText={'Edit Product'}/>
-                                    <Button buttonText={'Buy Now'}/>
+                                    <Button onClickHandle={() => infoAlert('Coming Soon!')} buttonText={'Buy Now'}/>
+                                    {wishListIconState ? (
+                                        <IoMdHeart onClick={() => handleWishlistItems(item?._id)} size={40} className='cursor-pointer p-1 bg-slate-200 rounded-full' title='Add to Wishlist'/>
+                                    ) : (
+                                        <IoIosHeartEmpty onClick={() => handleWishlistItems(item?._id)} size={40} className='cursor-pointer p-1 bg-slate-200 rounded-full' title='Add to Wishlist'/>
+                                    )}
                                 </div>
                             </div>
                         </React.Fragment>

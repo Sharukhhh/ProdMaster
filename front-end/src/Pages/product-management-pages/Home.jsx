@@ -6,6 +6,7 @@ import { useGetAllProductsQuery, useGetCategoriesQuery, useGetSubCategoriesQuery
 import CategoryModal from '../../components/modals/CategoryModal'
 import ProductModal from '../../components/modals/ProductModal'
 import RotateLoader from '../../components/loaders/RotateLoader'
+import { IoIosHeartEmpty, IoMdHeart , IoIosStarOutline} from "react-icons/io";
 
 const Home = () => {
     
@@ -103,8 +104,16 @@ const Home = () => {
                                             <img src={'https://orionsoftsol.com/wp-content/plugins/woocommerce/assets/images/placeholder.png'} alt="product img" 
                                             className='h-40 w-full object-cover mb-2'/>
                                         )}
-                                        <p className='text-xl font-bold mb-1 truncate'>{product?.productName}</p>
+                                        <div className='flex justify-between items-center'>
+                                            <p className='text-xl font-bold mb-1 truncate'>{product?.productName}</p>
+                                            <IoIosHeartEmpty size={16} />
+                                        </div>
                                         <p className='text-gray-500 text-xl truncate'>Rs: {product?.price}</p>
+                                        <div className='flex'>
+                                            {Array.from({length: 4}).map((_ , index) => (
+                                                <IoIosStarOutline key={index} size={17} />
+                                            ))}
+                                        </div>
                                     </div>
                                 </Link>
                             </div>
