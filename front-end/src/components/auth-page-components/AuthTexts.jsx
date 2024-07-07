@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-const AuthTexts = ({isLogin}) => {
+const AuthTexts = ({isLogin , isLoading , isLoginLoading}) => {
     return (
         <div className='md:w-1/2 p-6 text-white flex flex-col items-center justify-center bg-cover bg-center bg-[url("../../../../authImg.png")]'>
             <div className='text-center p-3  w-full'>
@@ -19,18 +19,22 @@ const AuthTexts = ({isLogin}) => {
                     </p>
                 )}
             </div>
-            {isLogin ? (
-                <Link to={'/'}>
-                    <button className='bg-transparent border my-4 px-5 py-3 border-white text-white rounded mt-5 hover:bg-amber-500 hover:text-white'>
-                        SIGN UP
-                    </button>
-                </Link>
-            ) : (
-                <Link to={'/login'}>
-                    <button className='bg-transparent border my-4 px-5 py-3 border-white text-white rounded mt-5 hover:bg-amber-500 hover:text-white'>
-                        LOGIN
-                    </button>
-                </Link>
+            {!isLoading || !isLoginLoading && (
+                <React.Fragment>
+                    {isLogin ? (
+                        <Link to={'/'}>
+                            <button className='bg-transparent border my-4 px-5 py-3 border-white text-white rounded mt-5 hover:bg-amber-500 hover:text-white'>
+                                SIGN UP
+                            </button>
+                        </Link>
+                    ) : (
+                        <Link to={'/login'}>
+                            <button className='bg-transparent border my-4 px-5 py-3 border-white text-white rounded mt-5 hover:bg-amber-500 hover:text-white'>
+                                LOGIN
+                            </button>
+                        </Link>
+                    )}
+                </React.Fragment>
             )}
         </div>
     )

@@ -60,7 +60,7 @@ const CommonAuth = ({isLogin}) => {
     return (
         <>
             <div className={`flex flex-col min-h-screen md:flex-row ${isLogin ? 'md:flex-row-reverse' : ''}`}>
-                <AuthTexts isLogin={isLogin} />
+                <AuthTexts isLogin={isLogin} isLoading={isLoading} isLoginLoading={isLoginLoading} />
                 <div className='md:w-1/2 flex items-center justify-center p-8 shadow-md  bg-neutral-100'>
                     <div className='w-full md:w-2/3'>
                         <h2 className='text-3xl text-amber-500 font-bold mb-8'>
