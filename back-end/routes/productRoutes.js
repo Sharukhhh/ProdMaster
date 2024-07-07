@@ -1,15 +1,15 @@
 import express from 'express';
 import { AddProduct, fetchProducts, getSingleProductDetails, updateProductDetails } from '../controllers/productController.js';
-// import { verifyUserAuth } from '../middlewares/authorization.js';
+import { verifyUserAuth } from '../middlewares/authorization.js';
 const router = express.Router();
 
-router.post('/add' , AddProduct);
+router.post('/add' ,verifyUserAuth, AddProduct);
 
-router.get('/get' , fetchProducts);
+router.get('/get' ,verifyUserAuth, fetchProducts);
 
-router.get('/single/:productId' , getSingleProductDetails);
+router.get('/single/:productId' ,verifyUserAuth, getSingleProductDetails);
 
-router.put('/edit/:productId' , updateProductDetails);
+router.put('/edit/:productId' ,verifyUserAuth, updateProductDetails);
 
 
 export default router;
