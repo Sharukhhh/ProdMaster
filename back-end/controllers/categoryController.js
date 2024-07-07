@@ -98,7 +98,7 @@ export const createSubCategory = async (req, res) => {
 export const fetchSubCategories = async (req, res) => {
     try {
 
-        const requiredCategoryName = 'Laptop';
+        const requiredCategoryName = 'Laptops';
 
         const mainCategory = await Category.findOne({mainCategory : requiredCategoryName});
 

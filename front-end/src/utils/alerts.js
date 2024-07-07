@@ -14,3 +14,10 @@ export const successAlert = (message) => {
         icon: 'success',
     })
 }
+
+export const infoAlert = (message) => {
+    Swal.fire({
+        icon: 'info',
+        title: message
+    })
+}

@@ -3,7 +3,7 @@ import {Toaster} from 'react-hot-toast'
 import CommonAuth from "./Pages/auth-pages/CommonAuth";
 import Home from "./Pages/product-management-pages/Home";
 import Product from "./Pages/product-management-pages/Product";
-import PrivatePageWrapper from "./components/PrivatePageWrapper";
+import PrivatePageWrapper from './components/wrappers/PrivatePageWrapper'
 
 function App() {
 
@@ -15,7 +15,7 @@ function App() {
           <Route path="/login" element={<CommonAuth isLogin={true}/>}/>
           <Route element={<PrivatePageWrapper/>}>
             <Route path="/home" element={<Home/>}/>
-            <Route path="/product" element={<Product/>}/>
+            <Route path="/product/:id" element={<Product/>}/>
           </Route>
         </Routes>
     </>

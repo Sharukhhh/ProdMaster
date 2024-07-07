@@ -1,8 +1,8 @@
 import {fetchBaseQuery , createApi} from '@reduxjs/toolkit/query/react';
 
 const baseQuery = fetchBaseQuery({
-    // baseUrl: 'http://localhost:5000/api/',
-    baseUrl: 'https://prodmaster-backend.onrender.com/api/',
+    baseUrl: 'http://localhost:5000/api/',
+    // baseUrl: 'https://prodmaster-backend.onrender.com/api/',
 
     prepareHeaders: (headers) => {
         const token = localStorage.getItem('ProdUsertoken');
@@ -18,10 +18,10 @@ export const apiSlice = createApi({
 
     reducerPath: 'prodMaster',
     baseQuery ,
-    tagTypes: ['Category'],
+    tagTypes: ['Category' , 'Sub Category', 'Products'],
 
     endpoints: (builder) => ({
-        // User Auth Endpoints - START
+        // --------------------User Auth Endpoints - START----------------------
         signUpUser : builder.mutation ({
             query: (data) => ({
                 url: 'auth/register',
@@ -29,6 +29,7 @@ export const apiSlice = createApi({
                 body: data
             })
         }),
+
         loginUser: builder.mutation({
             query: (data) => ({
                 url: 'auth/login',
@@ -36,10 +37,10 @@ export const apiSlice = createApi({
                 body: data
             })
         }),
-        // User Auth Endpoints - END
+        // --------------------User Auth Endpoints - END--------------------
 
 
-        // Category Management Endpoints - START
+        // --------------------Category Management Endpoints - START--------------------
         addMainCategory: builder.mutation({
             query: (data) => ({
                 url: 'category/add_category',
@@ -48,6 +49,7 @@ export const apiSlice = createApi({
             }),
             invalidatesTags: ['Category'],
         }),
+
         getCategories: builder.query({
             query: () => ({
                 url: 'category/main_categories',
@@ -55,16 +57,66 @@ export const apiSlice = createApi({
             }),
             providesTags: ['Category']
         }),
+
         addSubCategory: builder.mutation({
             query: (data) => ({
                 url: 'category/add_subcategory',
                 method: 'POST',
                 body: data
-            })
+            }),
+            invalidatesTags: ['Sub Category']
+        }),
+
+        getSubCategories: builder.query({
+            query: () => ({
+                url: 'category/subcategories',
+                method: 'GET',
+            }),
+            providesTags: ['Sub Category']
+        }),
+        // --------------------Category Management Endpoints - END--------------------
+
+
+        // --------------------Product management endpoints - START--------------------
+        saveProduct: builder.mutation({
+            query: (data) => ({
+                url: 'product/add',
+                method: 'POST',
+                body: data
+            }),
+            invalidatesTags: ['Products']
+        }),
+
+        getAllProducts: builder.query({
+            query: () => ({
+                url: 'product/get',
+                method: 'GET',
+            }),
+            providesTags: ['Products']
+        }),
+
+        getSingleProduct: builder.query({
+            query: (productId) => ({
+                url: `product/single/${productId}`,
+                method: 'GET'
+            }),
+            providesTags: ['Products']
+        }),
+
+        editProduct: builder.mutation({
+            query: ({productId , ...data}) => ({
+                url: `product/edit/${productId}`,
+                method: 'PUT',
+                body: data
+            }),
+            invalidatesTags: ['Products']
         })
-        // Category Management Endpoints - END
+        // --------------------Product management endpoints - END--------------------
     })
 });
 
 
-export const {useSignUpUserMutation , useLoginUserMutation , useAddMainCategoryMutation , useGetCategoriesQuery , useAddSubCategoryMutation} = apiSlice;
+export const {useSignUpUserMutation , useLoginUserMutation , 
+    useAddMainCategoryMutation , useGetCategoriesQuery , useAddSubCategoryMutation, useGetSubCategoriesQuery,
+    useSaveProductMutation , useGetAllProductsQuery, useGetSingleProductQuery, useEditProductMutation
+} = apiSlice;

@@ -15,7 +15,7 @@ const productSchema = mongoose.Schema({
         required : true
     },
 
-    ramSize : {
+    ram : {
         type : String,
         required : true
     },

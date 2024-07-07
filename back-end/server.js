@@ -5,6 +5,8 @@ import mongoSanitize from 'express-mongo-sanitize'
 import {connectToDb} from './connections/dbConnect.js'
 import authRoutes from './routes/authRoutes.js';
 import categoryRoutes from './routes/categoryRoutes.js'
+import productRoutes from './routes/productRoutes.js'
+import wishlistRoutes from './routes/wishlistRoutes.js'
 
 const app = express();
 
@@ -18,6 +20,8 @@ connectToDb();
 
 app.use('/api/auth' , authRoutes);
 app.use('/api/category' , categoryRoutes);
+app.use('/api/product' , productRoutes);
+app.use('/api/list' , wishlistRoutes);
 
 app.listen(5000 , () => {
     console.log('Server running');

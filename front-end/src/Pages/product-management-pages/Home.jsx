@@ -2,14 +2,20 @@ import React, { useState } from 'react'
 import Navbar from '../../components/navbar/Navbar'
 import Button from '../../components/buttons/Button'
 import {Link} from 'react-router-dom'
-import { useGetCategoriesQuery } from '../../Redux/services/apiSlice'
+import { useGetAllProductsQuery, useGetCategoriesQuery, useGetSubCategoriesQuery } from '../../Redux/services/apiSlice'
 import CategoryModal from '../../components/modals/CategoryModal'
+import ProductModal from '../../components/modals/ProductModal'
+import RotateLoader from '../../components/loaders/RotateLoader'
 
 const Home = () => {
     
     const [openMainCategoryModal , setOpenMainCategoryModal] = useState(false);
     const [openSubCategoryModal , setOpenSubCategoryModal] = useState(false);
+    const [openAddProductModal , setOpenAddProductModal] = useState(false);
+    const [selectedSubCategory , setSelectedSubCategory] = useState([]);
     const {data} = useGetCategoriesQuery();
+    const {data: subCategoriesData } = useGetSubCategoriesQuery();
+    const {data: productData , isLoading, isFetching , isError} = useGetAllProductsQuery()
 
     // Main Category modal display handler
     const handleMainCategoryModalDisplay = () => {
@@ -21,6 +27,20 @@ const Home = () => {
         setOpenSubCategoryModal(!openSubCategoryModal);
     }
 
+    // Add / Edit Product modal display handler
+    const handleAddProductModalDisplay = () => {
+        setOpenAddProductModal(!openAddProductModal);
+    }
+
+    //to add and filter out selected sub category id
+    const handleSubCategoryChange = (subCategoryId) => {
+        if(selectedSubCategory.includes(subCategoryId)){
+            setSelectedSubCategory((prev) => prev.filter((id) => id !== subCategoryId));
+            } else {
+            setSelectedSubCategory(prev => [...prev , subCategoryId]);
+        }
+    }
+
     return (
         <>
             <Navbar/>
@@ -28,7 +48,7 @@ const Home = () => {
                 <div className='space-x-3 space-y-3'>
                     <Button onClickHandle={handleMainCategoryModalDisplay} buttonText={'Add Category'}/>
                     <Button onClickHandle={handleSubCategoryModalDisplay} buttonText={'Add Sub category'}/>
-                    <Button buttonText={'Add Product'}/>
+                    <Button onClickHandle={handleAddProductModalDisplay} buttonText={'Add Product'}/>
                 </div>
             </div>
             <div className='container mx-auto mt-8 flex flex-col md:flex-row items-stretch'>
@@ -37,26 +57,60 @@ const Home = () => {
                         <h2 className='text-lg font-bold'>Categories</h2>
                         <p className='text-gray-500 mb-2'>All Categories</p>
                         <ul>
-                            <li className='cursor-pointer hover:underline'></li>
-                            <ul>
-                                <li>
-                                    <input type="checkbox" />
+                        {data?.categories?.map((mainCategory) => (
+                            <li key={mainCategory?._id} className='cursor-pointer hover:underline'>
+                            {mainCategory?.mainCategory}
+                            <ul className='ml-4'>
+                                {subCategoriesData?.subcategories?.filter((subCategory) => subCategory?.mainCategory === mainCategory?._id)
+                                .map((subCategory) => (
+                                <li key={subCategory?._id}>
+                                    <input
+                                    onChange={() => handleSubCategoryChange(subCategory?._id)}
+                                    checked={selectedSubCategory.includes(subCategory?._id)}
+                                    type="checkbox" 
+                                    /> {subCategory?.subcategoryName}
                                 </li>
+                                ))}  
                             </ul>
+                            </li>
+                        ))}
                         </ul>
                     </div>
                 </div>
                 <div className='w-full md:w-2/3'>
-                    <div className='flex flex-wrap'>
-                        <div className='w-full md:w-1/2 lg:w-1/3 p-2'>
-                            <Link>
-                                <div className='bg-white border rounded-lg overflow-hidden p-2'>
-                                    <img src="" alt="" className='h-40 w-full object-cover mb-2'/>
-                                    <p className='text-sm font-bold mb-1 truncate'>hih</p>
-                                </div>
-                            </Link>
+                    {isLoading || isFetching ? (
+                        <RotateLoader/>
+                    ) : isError ? ( 
+                        <>
+                            <p className='text-red-500'>Error Loading Products!</p>
+                        </>
+                    ) : (
+                        <div className='flex flex-wrap'>
+                            {productData?.products?.
+                            filter(product => {
+                            if(selectedSubCategory.length === 0){
+                                return true;
+                            }
+                            return selectedSubCategory.some(subId => product.subCategory.includes(subId))
+                            })?.map((product) => (
+                            <div key={product?._id} className='w-full md:w-1/2 lg:w-1/3 p-2' title='view product'>
+                                <Link to={`/product/${product?._id}`}>
+                                    <div className='bg-slate-50 border rounded-lg overflow-hidden p-6 space-y-5'>
+                                        {product?.images?.length > 0 ? (
+                                            <img src={product?.images[2]} alt={product?.productName}
+                                            className='h-40 w-full object-cover mb-2'/>
+                                        ) : (
+                                            <img src={'https://orionsoftsol.com/wp-content/plugins/woocommerce/assets/images/placeholder.png'} alt="product img" 
+                                            className='h-40 w-full object-cover mb-2'/>
+                                        )}
+                                        <p className='text-xl font-bold mb-1 truncate'>{product?.productName}</p>
+                                        <p className='text-gray-500 text-xl truncate'>Rs: {product?.price}</p>
+                                    </div>
+                                </Link>
+                            </div>
+                            ))}
                         </div>
-                    </div>
+                    )}    
                 </div>
             </div>
 
@@ -74,6 +128,14 @@ const Home = () => {
                 title={'Add Sub category'}
                 categories={data?.categories}
                 onClose={handleSubCategoryModalDisplay}
+                />
+            )}
+
+            {openAddProductModal && (
+                <ProductModal
+                onClose={handleAddProductModalDisplay}
+                subcategories={subCategoriesData?.subcategories}
+                isEditMode={false}
                 />
             )}
         </>
