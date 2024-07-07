@@ -27,27 +27,36 @@
     - git clone https://github.com/Sharukhhh/Bookish.git
 
 
-### Setting up the backend
+### Setting up the Backend
 
-- Navigate to backend diectory
-    -cd back-end
+- Navigate to the backend directory:
+    ```sh
+    cd back-end
+    ```
 
-- Install the dependencies
-    - npm install
-  
-- start the backend server
-    - npm start
+- Install the dependencies:
+    ```sh
+    npm install
+    ```
 
-
+- Start the backend server:
+    ```sh
+    npm start
+    ```
 
 ### Setting up the Frontend
 
-- Navigate to frontend diectory
-    - cd front-end
+- Navigate to the frontend directory:
+    ```sh
+    cd front-end
+    ```
 
-- Install the dependencies
-    - npm install
-  
-- start the backend server
-    - npm run dev
+- Install the dependencies:
+    ```sh
+    npm install
+    ```
 
+- Start the frontend server:
+    ```sh
+    npm run dev
+    ```
