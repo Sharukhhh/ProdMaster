@@ -4,7 +4,6 @@
 **Developed using MERN.**
 
 
----
 
 ## Links
 
@@ -18,7 +17,7 @@
 
 - API Documentation: [Postman](https://documenter.getpostman.com/view/26846855/2sA3e1BVxT)
 
----
+
 
 ## Features
 
