@@ -4,6 +4,8 @@
 **Developed using MERN.**
 
 
+---
+
 ## Links
 
 - Live Link: [ProdMaster Live](https://prod-master.vercel.app/)
@@ -15,6 +17,20 @@
 - Loom Recorded Video 2: [Code Summary](https://www.loom.com/share/630ee7a9c02444bcb5f2382677fbcfe4?sid=14f33dbe-16c8-41fa-bf2a-11cf2bf01701)
 
 - API Documentation: [Postman](https://documenter.getpostman.com/view/26846855/2sA3e1BVxT)
+
+---
+
+## Features
+
+- **Backend**: NodeJS with Expressjs framework for backend.
+- **Authentication**: Token-based authentication using JWT.
+- **Database**: MongoDB with Mongoose for data modeling.
+- **Frontend**: ReactJS with Tailwind CSS for Frontend.
+- **State Management**: Redux Toolkit for managing global application state.
+- **Data Fetching**: RTK Query for data fetching.
+- **Image Storage**: Firebase Storage for storing product images.
+
+---
 
 
 ## Screenshots

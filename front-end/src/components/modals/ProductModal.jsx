@@ -48,6 +48,11 @@ const ProductModal = ({onClose, subcategories , isEditMode , productId}) => {
                     return;
                 }
 
+                if(productData.images.length > 3) {
+                    errorAlert('Select only 3 Images');
+                    return;
+                }
+
                 // firebase setup for storing seelcted images to the firebase
                 setIsUploading(true);
                 const imageUploadPromises = productData.images.map(async(image) => {
