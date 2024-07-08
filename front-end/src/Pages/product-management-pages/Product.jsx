@@ -40,11 +40,9 @@ const Product = () => {
     const handleWishlistItems = async (productId) => {
         try {
             const response = await toggleWishlist(productId).unwrap();
-            console.log(response)
             toast.success(response?.message);
             setWishListIconstate(prev => !prev);
         } catch (error) {
-            console.log(error)
             if(error?.data?.error) {
                 errorAlert(error?.data?.error)
             } else {
@@ -105,7 +103,7 @@ const Product = () => {
                                 <div className='flex space-x-7'>
                                     <Button onClickHandle={toggleEditModal} buttonText={'Edit Product'}/>
                                     <Button onClickHandle={() => infoAlert('Coming Soon!')} buttonText={'Buy Now'}/>
-                                    {wishListIconState ? (
+                                    {!wishListIconState ? (
                                         <IoMdHeart onClick={() => handleWishlistItems(item?._id)} size={40} className='cursor-pointer p-1 bg-slate-200 rounded-full' title='Add to Wishlist'/>
                                     ) : (
                                         <IoIosHeartEmpty onClick={() => handleWishlistItems(item?._id)} size={40} className='cursor-pointer p-1 bg-slate-200 rounded-full' title='Add to Wishlist'/>

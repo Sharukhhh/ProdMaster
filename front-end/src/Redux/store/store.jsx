@@ -2,7 +2,7 @@ import {configureStore} from '@reduxjs/toolkit';
 import { persistReducer , persistStore } from "redux-persist";
 import storage from 'redux-persist/lib/storage'
 import {apiSlice} from '../services/apiSlice'
-import authSliceReducer from '../slices/authSlice'
+import authSliceReducer from '../slices/authSlice';
 
 const authSlicePersistConfig = {
     key: 'prodMaster_auth',
@@ -16,7 +16,7 @@ const persistedAuthReducer = persistReducer(authSlicePersistConfig , authSliceRe
 export const store = configureStore({
     reducer : {
         [apiSlice.reducerPath] : apiSlice.reducer,
-        prodMaster_auth: persistedAuthReducer
+        prodMaster_auth: persistedAuthReducer,
     },
 
     middleware : (getDefaultMiddleware) => 

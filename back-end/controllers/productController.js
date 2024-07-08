@@ -95,13 +95,17 @@ ROUTE : /api/product/get
 */
 export const fetchProducts = async (req, res) => {
     try {
+        // const page = req.query.page || 1;
+        // const limit = req.query.limit ||  6;
+
         const products = await Product.find().sort({createdAt : -1});
 
         if(!products){
             return res.status(404).json({error : 'Products not found'});
         }
+        const totalProducts = await Product.countDocuments();
 
-        return res.json({message : 'Success' , products});
+        return res.status(200).json({message : 'Success' , products});
 
     } catch (error) {
         console.log(error);

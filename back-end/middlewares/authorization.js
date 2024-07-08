@@ -30,7 +30,6 @@ export const verifyUserAuth = async (req, res, next) => {
         }
 
         req.user = userData;
-        console.log(req.user);
         next();
         
     } catch (error) {

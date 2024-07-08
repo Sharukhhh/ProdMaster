@@ -27,9 +27,9 @@ const Navbar = () => {
                 <div className='flex items-center w-full md:w-auto'>
                     <input type="search" 
                     placeholder='Search anything.......'
-                    className='p-2 rounded-l-md focus:outline-none w-full md:w-auto'
+                    className='p-3 rounded-l-md focus:outline-none w-full md:w-auto shadow-md'
                     />
-                    <button className='bg-amber-500 text-white p-2 rounded-r-md hover:bg-amber-700 focus:outline-none'>
+                    <button className='bg-amber-500 shadow-md text-white p-3 rounded-r-md hover:bg-amber-700 focus:outline-none'>
                         Search
                     </button>
                 </div>

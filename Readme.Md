@@ -24,7 +24,7 @@
 
 
 ### Clone the repository 
-    - git clone https://github.com/Sharukhhh/Bookish.git
+    - git clone https://github.com/Sharukhhh/ProdMaster.git
 
 
 ### Setting up the Backend

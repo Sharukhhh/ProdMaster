@@ -6,7 +6,8 @@ import { useGetAllProductsQuery, useGetCategoriesQuery, useGetSubCategoriesQuery
 import CategoryModal from '../../components/modals/CategoryModal'
 import ProductModal from '../../components/modals/ProductModal'
 import RotateLoader from '../../components/loaders/RotateLoader'
-import { IoIosHeartEmpty, IoMdHeart , IoIosStarOutline} from "react-icons/io";
+import { IoIosStarOutline} from "react-icons/io";
+import Pagination from '../../components/pagination/Pagination'
 
 const Home = () => {
     
@@ -14,6 +15,7 @@ const Home = () => {
     const [openSubCategoryModal , setOpenSubCategoryModal] = useState(false);
     const [openAddProductModal , setOpenAddProductModal] = useState(false);
     const [selectedSubCategory , setSelectedSubCategory] = useState([]);
+    // const [currentPage , setCurrentPage] = useState(1);
     const {data} = useGetCategoriesQuery();
     const {data: subCategoriesData } = useGetSubCategoriesQuery();
     const {data: productData , isLoading, isFetching , isError} = useGetAllProductsQuery()
@@ -80,16 +82,17 @@ const Home = () => {
                 </div>
                 <div className='w-full md:w-2/3'>
                     {isLoading || isFetching ? (
-                        <div className='w-full md:w-1/2 lg:w-1/3 p-2'>
+                        <div className='my-5 flex justify-center'>
                             <RotateLoader/>
                         </div>
                     ) : isError ? ( 
                         <>
-                        <div className='w-full md:w-1/2 lg:w-1/3 p-2'>
+                        <div className='my-5 flex justify-center'>
                             <p className='text-red-500'>Error Loading Products!</p>
                         </div>
                         </>
                     ) : (
+                        <>
                         <div className='flex flex-wrap'>
                             {productData?.products?.
                             filter(product => {
@@ -110,7 +113,6 @@ const Home = () => {
                                         )}
                                         <div className='flex justify-between items-center'>
                                             <p className='text-xl font-bold mb-1 truncate'>{product?.productName}</p>
-                                            <IoIosHeartEmpty size={16} />
                                         </div>
                                         <p className='text-gray-500 text-xl truncate'>Rs: {product?.price}</p>
                                         <div className='flex'>
@@ -123,6 +125,14 @@ const Home = () => {
                             </div>
                             ))}
                         </div>
+                        {/* <div className='my-5 w-full md:w-1/2 lg:w-1/3 p-2'>
+                                <Pagination
+                                currentPage={productData?.pagination?.currentPage}
+                                totalPage={productData?.pagination?.totalPages}
+                                onPagechange={setCurrentPage}
+                                />
+                        </div> */}
+                        </>
                     )}    
                 </div>
             </div>
