@@ -128,7 +128,7 @@ export const apiSlice = createApi({
                 url: 'list/get',
                 method: 'GET',
             }),
-            providesTags: ['list']
+            providesTags: ['list' , 'Products']
         })
         // --------------------Wishlist management endpoints - END--------------------
     })

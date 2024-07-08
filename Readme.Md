@@ -11,7 +11,9 @@
 
 <!-- - Server: [Server](https://prodmaster-backend.onrender.com/api/) -->
 
-<!-- - Zoom Video: [Explanation]() -->
+- Loom Recorded Video 1: [Working Demonstration](https://www.loom.com/share/0a8ecb6ae1d7431eaade434da2874b17?sid=d5edd5e1-c74b-4294-8e69-006ac77d5347)
+
+- Loom Recorded Video 2: [Code Summary](https://www.loom.com/share/630ee7a9c02444bcb5f2382677fbcfe4?sid=14f33dbe-16c8-41fa-bf2a-11cf2bf01701)
 
 
 ## Follow these steps to run this on your local machine:
