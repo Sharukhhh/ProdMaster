@@ -1,6 +1,7 @@
 # ProdMaster
 
-**ProdMaster is a product management application, where users can create categories and sub categories for products, can add product details with wishlist feature. Developed using MERN.**
+**ProdMaster is a product management application, where users can create categories and sub categories for products, can add product details with wishlist feature.**
+**Developed using MERN.**
 
 
 ## Links
@@ -14,6 +15,33 @@
 - Loom Recorded Video 2: [Code Summary](https://www.loom.com/share/630ee7a9c02444bcb5f2382677fbcfe4?sid=14f33dbe-16c8-41fa-bf2a-11cf2bf01701)
 
 - API Documentation: [Postman](https://documenter.getpostman.com/view/26846855/2sA3e1BVxT)
+
+
+## Screenshots
+
+![img1](screenshots/pm1.png)
+
+---
+
+![img2](screenshots/pm2.png)
+
+---
+
+![img3](screenshots/pm4.png)
+
+---
+
+![img4](screenshots/pm5.png)
+
+---
+
+![img5](screenshots/pm6.png)
+
+---
+
+![img6](screenshots/pm7.png)
+
+---
 
 
 ## Follow these steps to run this on your local machine:
