@@ -23,7 +23,6 @@
 - **Authentication**: Token-based authentication using JWT.
 - **Database**: MongoDB with Mongoose for data modeling.
 - **Frontend**: ReactJS with Tailwind CSS for Frontend.
-- **State Management**: Redux Toolkit for managing global application state.
 - **Data Fetching**: RTK Query for data fetching.
 - **Image Storage**: Firebase Storage for storing product images.
 
