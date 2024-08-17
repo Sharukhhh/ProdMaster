@@ -7,8 +7,6 @@ import SubCategory from '../models/subCategorySchema.js'
 */
 export const createMainCategory = async (req, res) => {
     try {
-        
-        console.log(req.body)
         const { mainCategory} = req.body;
 
         if(mainCategory){

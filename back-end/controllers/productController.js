@@ -137,3 +137,51 @@ export const getSingleProductDetails = async (req, res) => {
         return res.status(500).json({error: 'Server error'});
     }
 }
+
+
+/*
+DESCRIPTION : Search implementation
+ROUTE : /api/product/search?search=""
+*/
+export const searchProducts = async (req, res) => {
+    try {
+        const searchQuery = req.query.search;
+        console.log(req.query.search);
+        const searchRegex = new RegExp(searchQuery , 'i');
+
+        const data = await Product.aggregate([
+            {
+                $lookup: {
+                    from: 'sub categories',
+                    localField: 'subCategory',
+                    foreignField: '_id',
+                    as: 'subCategoryDetails'
+                }
+            },
+            {
+                $unwind: {
+                    path: '$subCategoryDetails',
+                }
+            },
+            {
+                $match: {
+                    $or: [
+                        {productName: searchRegex},
+                        {'subCategoryDetails.subcategoryName': searchRegex}
+                    ]
+                }
+            }
+        ])
+
+        if(!data) {
+            return res.status(404).json({error: 'No data exists'});
+        }
+        console.log(data, 'search data')
+
+        return res.status(200).json({message: 'success', data});
+
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({error: 'Server error'});
+    }
+}

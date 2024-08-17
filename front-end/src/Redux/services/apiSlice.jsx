@@ -1,8 +1,8 @@
 import {fetchBaseQuery , createApi} from '@reduxjs/toolkit/query/react';
 
 const baseQuery = fetchBaseQuery({
-    // baseUrl: 'http://localhost:5000/api/',
-    baseUrl: 'https://prodmaster-backend.onrender.com/api/',
+    baseUrl: 'http://localhost:5000/api/',
+    // baseUrl: 'https://prodmaster-backend.onrender.com/api/',
 
     prepareHeaders: (headers) => {
         const token = localStorage.getItem('ProdUsertoken');
@@ -111,6 +111,14 @@ export const apiSlice = createApi({
             }),
             invalidatesTags: ['Products']
         }),
+
+        searchItems: builder.query({
+            query: (searchQuery) => ({
+                url: `product/search?search=${searchQuery}`,
+                method: 'GET'
+            }),
+            providesTags: ['Products' , 'Sub Category']
+        }),
         // --------------------Product management endpoints - END--------------------
 
 
@@ -137,6 +145,6 @@ export const apiSlice = createApi({
 
 export const {useSignUpUserMutation , useLoginUserMutation , 
     useAddMainCategoryMutation , useGetCategoriesQuery , useAddSubCategoryMutation, useGetSubCategoriesQuery,
-    useSaveProductMutation , useGetAllProductsQuery, useGetSingleProductQuery, useEditProductMutation,
+    useSaveProductMutation , useGetAllProductsQuery, useGetSingleProductQuery, useEditProductMutation, useSearchItemsQuery,
     useToggleWishlistMutation , useGetWishlistItemsQuery
 } = apiSlice;

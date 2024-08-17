@@ -9,6 +9,6 @@ export const connectToDb = async () => {
         await mongoose.connect(mongoConnectionString);
         console.log('connected successfully');
     } catch (error) {
-        console.log('error while prisma connection');
+        console.log('error while db connection');
     }
 }

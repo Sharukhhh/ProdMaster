@@ -6,9 +6,11 @@ import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { removeUserDetailsFromStore } from '../../Redux/slices/authSlice';
 import { successAlert } from '../../utils/alerts';
+import SearchModal from '../modals/SearchModal';
 
 const Navbar = () => {
     const [sideBarOpen , setSideBarOpen] = useState(false);
+    const [searchModalOpen, setSearchModalOpen] = useState(false);
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const toggleSidebar = () => {
@@ -25,11 +27,12 @@ const Navbar = () => {
         <>
             <nav className='bg-[#001f3f] p-6 flex items-center justify-around'>
                 <div className='flex items-center w-full md:w-auto'>
-                    <input type="search" 
+                    <input type="text" onClick={() => setSearchModalOpen(!searchModalOpen)} 
                     placeholder='Search anything.......'
                     className='p-3 rounded-l-md focus:outline-none w-full md:w-auto shadow-md'
                     />
-                    <button className='bg-amber-500 shadow-md text-white p-3 rounded-r-md hover:bg-amber-700 focus:outline-none'>
+                    <button onClick={() => setSearchModalOpen(!searchModalOpen)} 
+                    className='bg-amber-500 shadow-md text-white p-3 rounded-r-md hover:bg-amber-700 focus:outline-none'>
                         Search
                     </button>
                 </div>
@@ -39,6 +42,12 @@ const Navbar = () => {
                 </div>
             </nav>
             <Sidebar isOpen={sideBarOpen} onClose={toggleSidebar} />
+
+            {searchModalOpen && (
+                <SearchModal
+                    closeModal={() => setSearchModalOpen(!searchModalOpen)}
+                />
+            )}
         </>
     )
 }

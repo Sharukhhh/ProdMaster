@@ -10,9 +10,10 @@ import { errorAlert } from '../../utils/alerts'
 import { useEditProductMutation, useGetSingleProductQuery, useSaveProductMutation } from '../../Redux/services/apiSlice'
 import {toast} from 'react-hot-toast'
 import RotateLoader from '../loaders/RotateLoader';
+import CropModal from './CropModal';
 
 const ProductModal = ({onClose, subcategories , isEditMode , productId}) => {
-    const {productData , setProductData, handleDataChange , handleFileChange , removeImage} = useProductForm();
+    const {productData , setProductData, handleDataChange , handleFileChange , removeImage, handleCropSave , setCropModalOpen, selectedImg , cropModalOpen} = useProductForm();
     const [saveProduct , {isLoading}] = useSaveProductMutation()
     const {data: editData , isLoading: isEditDataLoading} = useGetSingleProductQuery(productId , {skip: !isEditMode});
     const [editProduct , {isLoading: isUpdating}] = useEditProductMutation()
@@ -201,6 +202,14 @@ const ProductModal = ({onClose, subcategories , isEditMode , productId}) => {
                     </form>
                 )}
             </ModalWrapper>
+
+            {cropModalOpen && (
+                <CropModal
+                image={selectedImg}
+                onClose={() => setCropModalOpen(false)}
+                onSave={handleCropSave}
+                />
+            )}
         </>
     )
 }

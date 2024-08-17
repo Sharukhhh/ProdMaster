@@ -25,7 +25,7 @@ const Sidebar = ({onClose , isOpen}) => {
                         {data?.products?.products?.map((item) => (
                             <div key={item?._id} className='flex items-center space-x-4 border border-gray-200 rounded-md p-3 mb-2 shadow-md'>
                                 <img src={item?.itemId?.images[2]} alt={item?.itemId?.productName} className='w-16 h-16 md:w-20 md:h-20 object-cover rounded' />
-                                <div className='flex-1 space-y-4'>
+                                <div className='flex-1 space-y-3'>
                                     <p className='font-semibold truncate'>{item?.itemId?.productName}</p>
                                 </div>
                             </div>

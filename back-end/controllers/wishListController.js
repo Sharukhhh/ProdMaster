@@ -51,7 +51,6 @@ export const fetchWishListedItems = async (req, res) => {
         if(!products) {
             return res.status(404).json({error: 'Item not found'});
         }
-        console.log(products?.products)
         return res.status(200).json({message: 'success' , products});
 
     } catch (error) {
